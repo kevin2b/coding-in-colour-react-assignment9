@@ -1,27 +1,18 @@
-import { useState } from 'react'
-
 /* Component Imports */
 import Notification from './components/Notification'
 import AnecdoteFilter from './components/AnecdoteFilter'
 import AnecdoteList from './components/AnecdoteList'
 import AnecdoteForm from './components/AnecdoteForm'
 
+/*Redux import*/
 import { setNotification } from './store/notificationSlice'
 import { setFilter } from './store/filterSlice'
-import { useDispatch } from 'react-redux'
+import { incrementVoteById, addAnecdote } from './store/anecdoteSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const App = () => {
   const dispatch = useDispatch();
-
-  /* State to keep track of anecdotes */
-  const [anecdotes, setAnecdotes] = useState([
-    { id: 1, content: 'But it works in my machine...', votes: 8 },
-    { id: 2, content: 'If it hurts, do it more often.', votes: 2 },
-    { id: 3, content: 'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.', votes: 1 },
-    { id: 4, content: 'The hardest part of coding is getting started.', votes: 5 },
-    { id: 5, content: 'Adding manpower to a late software project makes it later!', votes: 0 }
-  ])
-
+  const anecdotes = useSelector(state => state.anecdote);
 
   /**
    * Performs two actions:
@@ -32,9 +23,7 @@ const App = () => {
    */
   const handleClickVote = (e, id) => {
     e.preventDefault()
-    const newAnecdotes = anecdotes
-      .map((obj) => obj.id === id ? { ...obj, votes: obj.votes + 1 } : obj )
-    setAnecdotes(newAnecdotes)
+    dispatch(incrementVoteById(id))
 
     const votedAnecdote = anecdotes.find((obj) => obj.id === id)
     dispatch(setNotification(`you voted for anecdote ${votedAnecdote.content}`))
@@ -54,8 +43,7 @@ const App = () => {
     e.preventDefault()
     const content = e.target.content.value
     e.target.content.value = ''
-    const newAnecdote = { id: anecdotes.length + 1, content, votes: 0 }
-    setAnecdotes(anecdotes.concat(newAnecdote))
+    dispatch(addAnecdote (content))
 
     dispatch(setNotification(`you created anecdote ${content}`))
     setTimeout(() => {
@@ -80,7 +68,7 @@ const App = () => {
       <h2>Anecdotes</h2>
       <Notification />
       <AnecdoteFilter onUpdateFilter={handleUpdateFilter} />
-      <AnecdoteList anecdotes={anecdotes} onClickVote={handleClickVote}/>
+      <AnecdoteList onClickVote={handleClickVote}/>
       <AnecdoteForm onClickCreate={handleClickCreate} />
     </div>
   )
