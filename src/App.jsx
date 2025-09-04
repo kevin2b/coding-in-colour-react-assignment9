@@ -7,13 +7,11 @@ import AnecdoteList from './components/AnecdoteList'
 import AnecdoteForm from './components/AnecdoteForm'
 
 import { setNotification } from './store/notificationSlice'
+import { setFilter } from './store/filterSlice'
 import { useDispatch } from 'react-redux'
 
 const App = () => {
   const dispatch = useDispatch();
-
-  /* State to keep track of filter */
-  const [filter, setFilter] = useState('')
 
   /* State to keep track of anecdotes */
   const [anecdotes, setAnecdotes] = useState([
@@ -73,7 +71,7 @@ const App = () => {
   const handleUpdateFilter = (e) => {
     e.preventDefault()
     console.log(e.target.value);
-    setFilter(e.target.value)
+    dispatch(setFilter(e.target.value))
   }
 
 
@@ -81,8 +79,8 @@ const App = () => {
     <div>
       <h2>Anecdotes</h2>
       <Notification />
-      <AnecdoteFilter filter={filter} onUpdateFilter={handleUpdateFilter} />
-      <AnecdoteList anecdotes={anecdotes} filter={filter} onClickVote={handleClickVote}/>
+      <AnecdoteFilter onUpdateFilter={handleUpdateFilter} />
+      <AnecdoteList anecdotes={anecdotes} onClickVote={handleClickVote}/>
       <AnecdoteForm onClickCreate={handleClickCreate} />
     </div>
   )

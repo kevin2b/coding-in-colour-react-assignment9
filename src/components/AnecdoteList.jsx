@@ -1,4 +1,7 @@
-const AnecdoteList = ({ anecdotes, filter, onClickVote }) => {
+import { useSelector } from "react-redux"
+
+const AnecdoteList = ({ anecdotes, onClickVote }) => {
+  const filter = useSelector(state => state.filter);
   return (
     <div>
       {anecdotes
