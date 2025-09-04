@@ -6,9 +6,11 @@ import AnecdoteFilter from './components/AnecdoteFilter'
 import AnecdoteList from './components/AnecdoteList'
 import AnecdoteForm from './components/AnecdoteForm'
 
+import { setNotification } from './store/notificationSlice'
+import { useDispatch } from 'react-redux'
+
 const App = () => {
-  /* State to keep track of notification */
-  const [notification, setNotification] = useState('')
+  const dispatch = useDispatch();
 
   /* State to keep track of filter */
   const [filter, setFilter] = useState('')
@@ -37,9 +39,9 @@ const App = () => {
     setAnecdotes(newAnecdotes)
 
     const votedAnecdote = anecdotes.find((obj) => obj.id === id)
-    setNotification(`you voted for anecdote ${votedAnecdote.content}`)
+    dispatch(setNotification(`you voted for anecdote ${votedAnecdote.content}`))
     setTimeout(() => {
-      setNotification('')
+       dispatch(setNotification(''))
     }, 5000)
   }
 
@@ -57,9 +59,9 @@ const App = () => {
     const newAnecdote = { id: anecdotes.length + 1, content, votes: 0 }
     setAnecdotes(anecdotes.concat(newAnecdote))
 
-    setNotification(`you created anecdote ${content}`)
+    dispatch(setNotification(`you created anecdote ${content}`))
     setTimeout(() => {
-      setNotification('')
+      dispatch(setNotification(''))
     }, 5000)
   }
 
@@ -78,7 +80,7 @@ const App = () => {
   return (
     <div>
       <h2>Anecdotes</h2>
-      <Notification notification={notification} />
+      <Notification />
       <AnecdoteFilter filter={filter} onUpdateFilter={handleUpdateFilter} />
       <AnecdoteList anecdotes={anecdotes} filter={filter} onClickVote={handleClickVote}/>
       <AnecdoteForm onClickCreate={handleClickCreate} />
