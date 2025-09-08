@@ -1,0 +1,6 @@
+.notification{
+  border: solid 3px var(--border-1);
+  background-color: var(--background-color-1);
+  padding: 1rem;
+  align-self: center;
+}

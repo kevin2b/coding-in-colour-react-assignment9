@@ -1,0 +1,10 @@
+.anecdote-filter{
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.anecdote-filter__search{
+  min-inline-size: 10rem;
+}

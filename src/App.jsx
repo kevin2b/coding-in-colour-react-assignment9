@@ -26,7 +26,7 @@ const App = () => {
     dispatch(incrementVoteById(id))
 
     const votedAnecdote = anecdotes.find((obj) => obj.id === id)
-    dispatch(setNotification(`you voted for anecdote ${votedAnecdote.content}`))
+    dispatch(setNotification(`You voted for anecdote "${votedAnecdote.content}"`))
     setTimeout(() => {
        dispatch(setNotification(''))
     }, 5000)
@@ -45,7 +45,7 @@ const App = () => {
     e.target.content.value = ''
     dispatch(addAnecdote (content))
 
-    dispatch(setNotification(`you created anecdote ${content}`))
+    dispatch(setNotification(`You created anecdote "${content}"`))
     setTimeout(() => {
       dispatch(setNotification(''))
     }, 5000)
@@ -64,8 +64,8 @@ const App = () => {
 
 
   return (
-    <div>
-      <h2>Anecdotes</h2>
+    <div className='wrapper'>
+      <h1>Anecdotes</h1>
       <Notification />
       <AnecdoteFilter onUpdateFilter={handleUpdateFilter} />
       <AnecdoteList onClickVote={handleClickVote}/>
